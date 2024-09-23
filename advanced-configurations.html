@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Advanced Configurations &mdash; NVIDIA Network Operator v24.7.0 documentation</title>
+  <title>Advanced Configurations &mdash; NVIDIA Network Operator v24.10.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
@@ -408,10 +408,11 @@ This approach is used to optimize the resulting container image size and reduce 
 <section id="rhel-specific-build-parameters">
 <h3>RHEL specific build parameters<a class="headerlink" href="#rhel-specific-build-parameters" title="Permalink to this headline"></a></h3>
 <ol class="arabic simple">
-<li><p><cite>D_BASE_IMAGE</cite>: DriverToolKit container image</p></li>
-</ol>
-<p><strong>NOTE:</strong> DTK (DriverToolKit) is tightly coupled with specific kernel versions, verify match between kernel version to compile drivers for, versus DTK image.</p>
-<ol class="arabic simple" start="2">
+<li><dl class="simple">
+<dt><cite>D_BASE_IMAGE</cite>: DriverToolKit container image</dt><dd><p><strong>NOTE:</strong> DTK (DriverToolKit) is tightly coupled with specific kernel versions, verify match between kernel version to compile drivers for, versus DTK image.</p>
+</dd>
+</dl>
+</li>
 <li><p><cite>D_FINAL_BASE_IMAGE</cite>: Final container image, to install compiled driver</p></li>
 </ol>
 <p>For more details regarding DTK please read <a class="reference external" href="https://docs.openshift.com/container-platform/4.15/hardware_enablement/psap-driver-toolkit.html#pulling-the-driver-toolkit-from-payload">official documentation</a>.</p>
@@ -419,10 +420,10 @@ This approach is used to optimize the resulting container image size and reduce 
 <section id="rhcos-specific-build-parameters">
 <h3>RHCOS specific build parameters<a class="headerlink" href="#rhcos-specific-build-parameters" title="Permalink to this headline"></a></h3>
 <ol class="arabic simple">
-<li><p><cite>D_BASE_IMAGE</cite>: DriverToolKit container image</p></li>
+<li><p><cite>D_BASE_IMAGE</cite>: DriverToolKit container image
+<strong>NOTE:</strong> DTK (DriverToolKit) is tightly coupled with specific kernel version for an OpenShift release.
+In order to get the specific DTK container image for a specific OpenShift release, run:</p></li>
 </ol>
-<p><strong>NOTE:</strong> DTK (DriverToolKit) is tightly coupled with specific kernel version for an OpenShift release.</p>
-<p>In order to get the specific DTK container image for a specific OpenShift release, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>oc adm release info &lt;OCP_VERSION&gt; --image-for<span class="o">=</span>driver-toolkit
 </pre></div>
 </div>
@@ -441,7 +442,7 @@ quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:dde3cd6a75d865a476aa7e1cab
 </ol>
 <section id="rhel-example">
 <h4>RHEL example<a class="headerlink" href="#rhel-example" title="Permalink to this headline"></a></h4>
-<p>To build RHEL-based image please use provided <a class="reference download internal" download="" href="_downloads/663bbb4b3213d52bc9a144e44cdbae7e/RHEL_Dockerfile"><code class="xref download docutils literal notranslate"><span class="pre">Dockerfile</span></code></a>:</p>
+<p>To build RHEL-based image please use provided <a class="reference external" href="https://raw.githubusercontent.com/Mellanox/doca-driver-build/d3c60f550d9d67f5bd53302c6c3e0d6c559985eb/RHEL_Dockerfile">RHEL Dockerfile</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman build <span class="se">\</span>
  --build-arg <span class="nv">D_OS</span><span class="o">=</span>rhel9.2 <span class="se">\</span>
  --build-arg <span class="nv">D_ARCH</span><span class="o">=</span>x86_64 <span class="se">\</span>
@@ -457,7 +458,7 @@ quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:dde3cd6a75d865a476aa7e1cab
 </section>
 <section id="rhcos-example">
 <h4>RHCOS example<a class="headerlink" href="#rhcos-example" title="Permalink to this headline"></a></h4>
-<p>To build RHCOS based image please use provided <a class="reference download internal" download="" href="_downloads/663bbb4b3213d52bc9a144e44cdbae7e/RHEL_Dockerfile"><code class="xref download docutils literal notranslate"><span class="pre">Dockerfile</span></code></a>:</p>
+<p>To build RHCOS based image please use provided <a class="reference external" href="https://raw.githubusercontent.com/Mellanox/doca-driver-build/d3c60f550d9d67f5bd53302c6c3e0d6c559985eb/RHEL_Dockerfile">RHCOS Dockerfile</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman build <span class="se">\</span>
  --build-arg <span class="nv">D_OS</span><span class="o">=</span>rhcos4.16 <span class="se">\</span>
  --build-arg <span class="nv">D_ARCH</span><span class="o">=</span>x86_64 <span class="se">\</span>
@@ -473,7 +474,7 @@ quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:dde3cd6a75d865a476aa7e1cab
 </section>
 <section id="ubuntu-example">
 <h4>Ubuntu example<a class="headerlink" href="#ubuntu-example" title="Permalink to this headline"></a></h4>
-<p>To build RHEL-based image please use provided <a class="reference download internal" download="" href="_downloads/4a5f0a92535329b1cb793f9f614b3384/Ubuntu_Dockerfile"><code class="xref download docutils literal notranslate"><span class="pre">Dockerfile</span></code></a>:.</p>
+<p>To build Ubuntu-based image please use provided <a class="reference external" href="https://raw.githubusercontent.com/Mellanox/doca-driver-build/d3c60f550d9d67f5bd53302c6c3e0d6c559985eb/Ubuntu_Dockerfile">Ubuntu Dockerfile</a>:.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker build <span class="se">\</span>
  --build-arg <span class="nv">D_OS</span><span class="o">=</span>ubuntu22.04 <span class="se">\</span>
  --build-arg <span class="nv">D_ARCH</span><span class="o">=</span>x86_64 <span class="se">\</span>
@@ -486,8 +487,8 @@ quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:dde3cd6a75d865a476aa7e1cab
 </pre></div>
 </div>
 <p><strong>NOTE:</strong> Dockerfiles contain default build parameters, which may fail build proccess on your system if not overridden.</p>
-<p><strong>NOTE:</strong> Entrypoint script <a class="reference download internal" download="" href="_downloads/d77d407abaea8c0b58a2c2db5a3ebba9/entrypoint.sh"><code class="xref download docutils literal notranslate"><span class="pre">download</span></code></a></p>
-<p><strong>NOTE:</strong> Driver build script <a class="reference download internal" download="" href="_downloads/ade9061638941c61910a410bb71e1116/dtk_nic_driver_build.sh"><code class="xref download docutils literal notranslate"><span class="pre">download</span></code></a></p>
+<p><strong>NOTE:</strong> Download <a class="reference external" href="https://raw.githubusercontent.com/Mellanox/doca-driver-build/d3c60f550d9d67f5bd53302c6c3e0d6c559985eb/entrypoint.sh">entrypoint script file</a></p>
+<p><strong>NOTE:</strong> Download <a class="reference external" href="https://raw.githubusercontent.com/Mellanox/doca-driver-build/d3c60f550d9d67f5bd53302c6c3e0d6c559985eb/dtk_nic_driver_build.sh">DTK build script file</a></p>
 <p><strong>NOTE:</strong> Make sure the <cite>.sh</cite> files are executable by running <cite>chmod +x entrypoint.sh dtk_nic_driver_build.sh</cite></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -507,7 +508,7 @@ quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:dde3cd6a75d865a476aa7e1cab
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, NVIDIA.
-      <span class="lastupdated">Last updated on Aug 27, 2024.
+      <span class="lastupdated">Last updated on Sep 23, 2024.
       </span></p>
   </div>
 
