@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting Started with Red Hat OpenShift &mdash; NVIDIA Network Operator v25.04.0 documentation</title>
+  <title>Getting Started with Red Hat OpenShift &mdash; NVIDIA Network Operator v25.07.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
@@ -140,7 +140,7 @@
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Automatic DOCA Driver Upgrade doesn’t work on Single Node OpenShift (SNO) deployments.</p>
+<p>Automatic DOCA-OFED Driver Upgrade doesn’t work on Single Node OpenShift (SNO) deployments.</p>
 </div>
 <section id="node-feature-discovery">
 <h3>Node Feature Discovery<a class="headerlink" href="#node-feature-discovery" title="Permalink to this headline"></a></h3>
@@ -201,7 +201,7 @@ Roles:              worker
 <p class="admonition-title">Warning</p>
 <p>The SR-IOV resources created will have the <cite>openshift.io</cite> prefix.</p>
 </div>
-<p>For the default SriovOperatorConfig CR to work with the NVIDIA DOCA Driver container, please run this command to update the following values:</p>
+<p>For the default SriovOperatorConfig CR to work with the NVIDIA DOCA-OFED Driver container, please run this command to update the following values:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>oc patch sriovoperatorconfig default <span class="se">\</span>
   --type<span class="o">=</span>merge -n openshift-sriov-network-operator <span class="se">\</span>
   --patch <span class="s1">&#39;{ &quot;spec&quot;: { &quot;configDaemonNodeSelector&quot;: { &quot;network.nvidia.com/operator.mofed.wait&quot;: &quot;false&quot;, &quot;node-role.kubernetes.io/worker&quot;: &quot;&quot;, &quot;feature.node.kubernetes.io/pci-15b3.sriov.capable&quot;: &quot;true&quot; } } }&#39;</span>
@@ -580,7 +580,7 @@ The <cite>pod.yaml</cite> configuration file for such a deployment:</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, NVIDIA.
-      <span class="lastupdated">Last updated on May 29, 2025.
+      <span class="lastupdated">Last updated on Jun 25, 2025.
       </span></p>
   </div>
 
