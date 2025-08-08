@@ -56,12 +56,28 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../release-notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../platform-support.html">Platform Support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../getting-started-kubernetes.html">Getting Started with Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started-with-kubernetes.html">Getting Started with Kubernetes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting-started-openshift.html">Getting Started with Red Hat OpenShift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nic-conf-operator/nic-configuration-operator.html">NIC Configuration Operator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../customizations/customization.html">Customization Options and CRDs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../life-cycle-management.html">Life Cycle Management</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="advanced.html">Advanced Configurations</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Proxy &amp; Air-gapped</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Proxy &amp; Air-gapped</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#network-operator-deployment-in-a-proxy-environment">Network Operator Deployment in a Proxy Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#http-proxy-configuration-for-openshift">HTTP Proxy Configuration for Openshift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#http-proxy-configuration">HTTP Proxy Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#network-operator-deployment-in-an-air-gapped-environment">Network Operator Deployment in an Air-gapped Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#local-image-registry">Local Image Registry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pulling-and-pushing-container-images-to-a-local-registry">Pulling and Pushing Container Images to a Local Registry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-local-registry-tls-cert">Configuring Local Registry TLS Cert</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#local-package-repository">Local Package Repository</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="doca-drivers.html">DOCA-OFED Driver Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="advanced-configurations.html">Other Advanced Configurations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="images-sha256.html">Container Images Digests</a></li>
@@ -147,7 +163,7 @@
 <section id="http-proxy-configuration-for-openshift">
 <h3>HTTP Proxy Configuration for Openshift<a class="headerlink" href="#http-proxy-configuration-for-openshift" title="Permalink to this headline"></a></h3>
 <p>For Openshift, it is recommended to use the cluster-wide Proxy object to provide proxy information for the cluster.
-Please follow the procedure described in <a class="reference external" href="https://docs.openshift.com/container-platform/latest/networking/enable-cluster-wide-proxy.html">Configuring the Cluster-wide Proxy</a> via the Red Hat Openshift public documentation. The NVIDIA Network Operator will automatically inject proxy related ENV into the driver container, based on the information present in the cluster-wide Proxy object.</p>
+Please follow the procedure described in <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/configuring_network_settings/enable-cluster-wide-proxy">Configuring the Cluster-wide Proxy</a> via the Red Hat Openshift public documentation. The NVIDIA Network Operator will automatically inject proxy related ENV into the driver container, based on the information present in the cluster-wide Proxy object.</p>
 </section>
 <section id="http-proxy-configuration">
 <h3>HTTP Proxy Configuration<a class="headerlink" href="#http-proxy-configuration" title="Permalink to this headline"></a></h3>
@@ -193,7 +209,7 @@ To allow Network Operator to work with a local registry, users can specify local
 <p>To pull the correct images from the NVIDIA registry, you can leverage the fields <code class="docutils literal notranslate"><span class="pre">repository</span></code>, <code class="docutils literal notranslate"><span class="pre">image</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code> specified in the <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> file or in the <a class="reference internal" href="images-sha256.html#container-images-digest"><span class="std std-ref">NVIDIA Network Operator Container Images</span></a> section.</p>
 <p>NicClusterPolicy supports use of image container digest in the <cite>version</cite> field, except for DOCA-OFED driver.</p>
 <p>There is one caveat with regards to the DOCA-OFED driver image. The version field must be appended by the OS name and Architecture running on the worker node.</p>
-<p>For example for DOCA-OFED driver version doca3.1.0-25.07-0.6.6.0-0, the tag for Ubuntu 24.04 with X86 architecture is “doca3.1.0-25.07-0.6.6.0-0-ubuntu24.04-amd64”.
+<p>For example for DOCA-OFED driver version doca3.1.0-25.07-0.8.0.0-0, the tag for Ubuntu 24.04 with X86 architecture is “doca3.1.0-25.07-0.8.0.0-0-ubuntu24.04-amd64”.
 Available DOCA-OFED driver image tags can be found at <a class="reference external" href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/mellanox/containers/doca-driver/tags">NGC</a>.</p>
 <p>In case of local registry required authentication, make sure to create a pull secret and configure in NicClusterPolicy accordingly.</p>
 <div class="admonition note">
@@ -396,7 +412,7 @@ openssl s_client -showcerts -connect <span class="si">${</span><span class="nv">
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, NVIDIA.
-      <span class="lastupdated">Last updated on Jul 14, 2025.
+      <span class="lastupdated">Last updated on Aug 08, 2025.
       </span></p>
   </div>
 

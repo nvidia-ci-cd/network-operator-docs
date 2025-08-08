@@ -56,10 +56,52 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="platform-support.html">Platform Support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="getting-started-kubernetes.html">Getting Started with Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started-with-kubernetes.html">Getting Started with Kubernetes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started-openshift.html">Getting Started with Red Hat OpenShift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nic-conf-operator/nic-configuration-operator.html">NIC Configuration Operator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customizations/customization.html">Customization Options and CRDs</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Life Cycle Management</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Life Cycle Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#network-operator-versioning">Network Operator Versioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#network-operator-life-cycle">Network Operator Life Cycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ensuring-deployment-readiness">Ensuring Deployment Readiness</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#status-field-example-of-a-nicclusterpolicy-instance">Status Field Example of a NICClusterPolicy Instance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#network-operator-upgrade">Network Operator Upgrade</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#downloading-a-new-helm-chart">Downloading a New Helm Chart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#upgrading-crds-for-a-specific-release">Upgrading CRDs for a Specific Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preparing-the-helm-values-for-the-new-release">Preparing the Helm Values for the New Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#applying-the-helm-chart-update">Applying the Helm Chart Update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#doca-ofed-driver-manual-upgrade">DOCA-OFED Driver Manual Upgrade</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#restarting-pods-with-a-containerized-doca-ofed-driver">Restarting Pods with a Containerized DOCA-OFED Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#removing-pods-with-a-secondary-network-from-the-node">Removing Pods with a Secondary Network from the Node</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#restarting-the-doca-ofed-driver-pod">Restarting the DOCA-OFED Driver Pod</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deleting-the-doca-ofed-driver-pod-from-the-node">Deleting the DOCA-OFED Driver Pod from the Node</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#returning-pods-with-a-secondary-network-to-the-node">Returning Pods with a Secondary Network to the Node</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#automatic-doca-ofed-driver-upgrade">Automatic DOCA-OFED Driver Upgrade</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#node-upgrade-states">Node Upgrade States</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#upgrade-modes">Upgrade modes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#safe-driver-loading">Safe Driver Loading</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#uninstalling-the-network-operator">Uninstalling the Network Operator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#uninstalling-network-operator-on-a-vanilla-kubernetes-cluster">Uninstalling Network Operator on a Vanilla Kubernetes Cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uninstalling-the-network-operator-on-an-openshift-cluster">Uninstalling the Network Operator on an OpenShift Cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-steps">Additional Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#nicclusterpolicy-crd-update">NicClusterPolicy CRD Update</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="advanced/advanced.html">Advanced Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licenses.html">Legal Notices and 3rd Party Licenses</a></li>
 </ul>
@@ -249,7 +291,7 @@ $ kubectl -n nvidia-network-operator delete sriovnetworknodepolicies.sriovnetwor
 <h3>Downloading a New Helm Chart<a class="headerlink" href="#downloading-a-new-helm-chart" title="Permalink to this headline"></a></h3>
 <p>To obtain new releases, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Download Helm chart</span>
- $ helm fetch <span class="se">\h</span>ttps://helm.ngc.nvidia.com/nvidia/charts/network-operator-25.7.0-beta.2.tgz
+ $ helm fetch <span class="se">\h</span>ttps://helm.ngc.nvidia.com/nvidia/charts/network-operator-25.7.0-rc.1.tgz
  $ ls network-operator-<span class="se">\*</span>.tgz <span class="p">|</span> xargs -n <span class="m">1</span> tar xf
 </pre></div>
 </div>
@@ -367,7 +409,7 @@ $ kubectl -n nvidia-network-operator delete sriovnetworknodepolicies.sriovnetwor
 <span class="w">   </span><span class="nt">ofedDriver</span><span class="p">:</span><span class="w"></span>
 <span class="w">     </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca-driver</span><span class="w"></span>
 <span class="w">     </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">     </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.6.6.0-0</span><span class="w"></span>
+<span class="w">     </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.8.0.0-0</span><span class="w"></span>
 <span class="w">     </span><span class="nt">upgradePolicy</span><span class="p">:</span><span class="w"></span>
 <span class="w">       </span><span class="c1"># autoUpgrade is a global switch for automatic upgrade feature</span><span class="w"></span>
 <span class="w">       </span><span class="c1"># if set to false all other options are ignored</span><span class="w"></span>
@@ -466,7 +508,7 @@ $ kubectl -n nvidia-network-operator delete sriovnetworknodepolicies.sriovnetwor
 <span class="w">    </span><span class="nt">ofedDriver</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca-driver</span><span class="w"></span>
 <span class="w">      </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.6.6.0-0</span><span class="w"></span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.8.0.0-0</span><span class="w"></span>
 <span class="w">      </span><span class="nt">upgradePolicy</span><span class="p">:</span><span class="w"></span>
 <span class="w">        </span><span class="nt">autoUpgrade</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
 <span class="w">        </span><span class="nt">maxParallelUpgrades</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
@@ -595,7 +637,7 @@ No resources found
 <p>From the console:</p>
 <p>In the OpenShift Container Platform web console side menu, select <strong>Operators &gt;Installed Operators</strong>, search for the <strong>NVIDIA Network Operator</strong>, and click on it.</p>
 <p>On the right side of the <strong>Operator Details</strong> page, select <strong>Uninstall Operator</strong> from the <strong>Actions</strong> drop-down menu.</p>
-<p>For additional information, see the <a class="reference external" href="https://docs.openshift.com/container-platform/4.10/operators/admin/olm-deleting-operators-from-cluster.html">Red Hat OpenShift Container Platform Documentation</a>.</p>
+<p>For additional information, see the <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/operators/administrator-tasks#olm-deleting-operators-from-a-cluster">Red Hat OpenShift Container Platform Documentation</a>.</p>
 <p>From the CLI:</p>
 <blockquote>
 <div><ul>
@@ -628,7 +670,7 @@ No resources found
 </li>
 </ul>
 </div></blockquote>
-<p>The SR-IOV Network Operator uninstallation procedure is described in this document. For additional information, see the <a class="reference external" href="https://docs.openshift.com/container-platform/4.10/operators/admin/olm-deleting-operators-from-cluster.html">Red Hat OpenShift Container Platform Documentation</a>.</p>
+<p>The SR-IOV Network Operator uninstallation procedure is described in this document. For additional information, see the <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/operators/administrator-tasks#olm-deleting-operators-from-a-cluster">Red Hat OpenShift Container Platform Documentation</a>.</p>
 </section>
 <section id="additional-steps">
 <h3>Additional Steps<a class="headerlink" href="#additional-steps" title="Permalink to this headline"></a></h3>
@@ -657,7 +699,7 @@ No resources found
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, NVIDIA.
-      <span class="lastupdated">Last updated on Jul 14, 2025.
+      <span class="lastupdated">Last updated on Aug 08, 2025.
       </span></p>
   </div>
 

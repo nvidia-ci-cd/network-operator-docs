@@ -26,8 +26,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Customization Options" href="customizations/customization.html" />
-    <link rel="prev" title="Getting Started with Kubernetes" href="getting-started-kubernetes.html" />
+    <link rel="next" title="NIC Configuration Operator" href="nic-conf-operator/nic-configuration-operator.html" />
+    <link rel="prev" title="NVIDIA Network Operator Deployment Guide with Kubernetes" href="deployment-guide-kubernetes.html" />
  
 
 
@@ -56,8 +56,35 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="platform-support.html">Platform Support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="getting-started-kubernetes.html">Getting Started with Kubernetes</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started with Red Hat OpenShift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started-with-kubernetes.html">Getting Started with Kubernetes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started with Red Hat OpenShift</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#network-operator-deployment-on-an-openshift-container-platform">Network Operator Deployment on an OpenShift Container Platform</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#node-feature-discovery">Node Feature Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sr-iov-network-operator">SR-IOV Network Operator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gpu-operator">GPU Operator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#network-operator-installation">Network Operator Installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#network-operator-installation-using-openshift-catalog">Network Operator Installation Using OpenShift Catalog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#network-operator-installation-using-openshift-oc-cli">Network Operator Installation using OpenShift OC CLI</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#verification">Verification</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#using-network-operator-to-create-nicclusterpolicy-in-openshift-container-platform">Using Network Operator to Create NicClusterPolicy in OpenShift Container Platform</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#deployment-examples-for-openshift-container-platform">Deployment Examples For OpenShift Container Platform</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#network-operator-deployment-with-a-host-device-network-ocp">Network Operator Deployment with a Host Device Network - OCP</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#network-operator-deployment-with-sr-iov-legacy-mode-ocp">Network Operator Deployment with SR-IOV Legacy Mode - OCP</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#network-operator-deployment-with-the-rdma-shared-device-plugin-ocp">Network Operator Deployment with the RDMA Shared Device Plugin - OCP</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#network-operator-deployment-for-dpdk-workloads-ocp">Network Operator Deployment for DPDK Workloads - OCP</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nic-conf-operator/nic-configuration-operator.html">NIC Configuration Operator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customizations/customization.html">Customization Options and CRDs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="life-cycle-management.html">Life Cycle Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced/advanced.html">Advanced Configurations</a></li>
@@ -144,7 +171,7 @@
 </div>
 <section id="node-feature-discovery">
 <h3>Node Feature Discovery<a class="headerlink" href="#node-feature-discovery" title="Permalink to this headline"></a></h3>
-<p>To enable Node Feature Discovery, please follow the official <a class="reference external" href="https://docs.openshift.com/container-platform/latest/hardware_enablement/psap-node-feature-discovery-operator.html">guide</a>.
+<p>To enable Node Feature Discovery, please follow the official <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/specialized_hardware_and_driver_enablement/psap-node-feature-discovery-operator">guide</a>.
 A single instance of Node Feature Discovery is expected to be used in the cluster.</p>
 <p>An example of Node Feature Discovery configuration:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nfd.openshift.io/v1</span><span class="w"></span>
@@ -170,7 +197,7 @@ A single instance of Node Feature Discovery is expected to be used in the cluste
 </pre></div>
 </div>
 <p>Verify that the following label is present on the nodes containing NVIDIA networking hardware: <cite>feature.node.kubernetes.io/pci-15b3.present=true</cite></p>
-<p>For more details please read official NFD <a class="reference external" href="https://docs.openshift.com/container-platform/4.16/hardware_enablement/psap-node-feature-discovery-operator.html#creating-nfd-cr-cli_psap-node-feature-discovery-operator">documentation</a>.</p>
+<p>For more details please read official NFD <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/specialized_hardware_and_driver_enablement/psap-node-feature-discovery-operator#creating-nfd-cr-cli_psap-node-feature-discovery-operator">documentation</a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>oc describe node <span class="p">|</span> grep -E <span class="s1">&#39;Roles|pci&#39;</span> <span class="p">|</span> grep -v <span class="s2">&quot;control-plane&quot;</span>
 
 Roles:              worker
@@ -196,7 +223,7 @@ Roles:              worker
 </section>
 <section id="sr-iov-network-operator">
 <h3>SR-IOV Network Operator<a class="headerlink" href="#sr-iov-network-operator" title="Permalink to this headline"></a></h3>
-<p>If you are planning to use SR-IOV, follow these <a class="reference external" href="https://docs.openshift.com/container-platform/latest/networking/hardware_networks/installing-sriov-operator.html">instructions</a> to install SR-IOV Network Operator on an OpenShift Container Platform.</p>
+<p>If you are planning to use SR-IOV, follow these <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/networking_operators/sr-iov-operator#installing-sriov-operator">instructions</a> to install SR-IOV Network Operator on an OpenShift Container Platform.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The SR-IOV resources created will have the <cite>openshift.io</cite> prefix.</p>
@@ -209,7 +236,7 @@ Roles:              worker
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>SR-IOV Network Operator configuration documentation can be found on the <a class="reference external" href="https://docs.openshift.com/container-platform/latest/networking/hardware_networks/configuring-sriov-operator.html#configuring-sriov-operator">Official Website</a>.</p>
+<p>SR-IOV Network Operator configuration documentation can be found on the <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/networking_operators/sr-iov-operator#configuring-sriov-operator">Official Website</a>.</p>
 </div>
 </section>
 <section id="gpu-operator">
@@ -224,7 +251,7 @@ Roles:              worker
 <ul class="simple">
 <li><p>In the OpenShift Container Platform web console side menu, select Operators &gt; OperatorHub, and search for the NVIDIA Network Operator.</p></li>
 <li><p>Select NVIDIA Network Operator, and click Install in the first screen and in the subsequent one.</p></li>
-<li><p>For additional information, see the <a class="reference external" href="https://docs.openshift.com/container-platform/latest/operators/admin/olm-adding-operators-to-cluster.html">Red Hat OpenShift Container Platform Documentation</a>.</p></li>
+<li><p>For additional information, see the <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/operators/administrator-tasks#olm-adding-operators-to-a-cluster">Red Hat OpenShift Container Platform Documentation</a>.</p></li>
 </ul>
 </section>
 <section id="network-operator-installation-using-openshift-oc-cli">
@@ -307,7 +334,7 @@ nvidia-network-operator-controller-manager-8f8ccf45c-zgfsq    <span class="m">2<
 <span class="w">  </span><span class="nt">ofedDriver</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca-driver</span><span class="w"></span>
 <span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.6.6.0-0</span><span class="w"></span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.8.0.0-0</span><span class="w"></span>
 <span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">startupProbe</span><span class="p p-Indicator">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w"></span>
 <span class="w">      </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span><span class="w"></span>
@@ -320,7 +347,7 @@ nvidia-network-operator-controller-manager-8f8ccf45c-zgfsq    <span class="m">2<
 <span class="w">  </span><span class="nt">sriovDevicePlugin</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sriov-network-device-plugin</span><span class="w"></span>
 <span class="w">      </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v25.7.0-beta.2</span><span class="w"></span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v25.7.0-rc.1</span><span class="w"></span>
 <span class="w">      </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
 <span class="w">        </span><span class="no">{</span><span class="w"></span>
 <span class="w">          </span><span class="no">&quot;resourceList&quot;: [</span><span class="w"></span>
@@ -401,7 +428,7 @@ Note that the SR-IOV Network Operator is required as described in the Deployment
 <span class="w">  </span><span class="nt">ofedDriver</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca-driver</span><span class="w"></span>
 <span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.6.6.0-0</span><span class="w"></span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.8.0.0-0</span><span class="w"></span>
 <span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">startupProbe</span><span class="p p-Indicator">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w"></span>
 <span class="w">      </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span><span class="w"></span>
@@ -496,7 +523,7 @@ The <cite>pod.yaml</cite> configuration file for such a deployment:</p>
 <span class="w">  </span><span class="nt">ofedDriver</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca-driver</span><span class="w"></span>
 <span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.6.6.0-0</span><span class="w"></span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doca3.1.0-25.07-0.8.0.0-0</span><span class="w"></span>
 <span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">startupProbe</span><span class="p p-Indicator">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w"></span>
 <span class="w">      </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span><span class="w"></span>
@@ -521,7 +548,7 @@ The <cite>pod.yaml</cite> configuration file for such a deployment:</p>
 <span class="w">      </span><span class="no">}</span><span class="w"></span>
 <span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8s-rdma-shared-dev-plugin</span><span class="w"></span>
 <span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v25.7.0-beta.2</span><span class="w"></span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v25.7.0-rc.1</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The <cite>macvlan-net-ocp.yaml</cite> configuration file for such a deployment in an OpenShift Platform:</p>
@@ -563,8 +590,8 @@ The <cite>pod.yaml</cite> configuration file for such a deployment:</p>
 </section>
 <section id="network-operator-deployment-for-dpdk-workloads-ocp">
 <h5>Network Operator Deployment for DPDK Workloads - OCP<a class="headerlink" href="#network-operator-deployment-for-dpdk-workloads-ocp" title="Permalink to this headline"></a></h5>
-<p>In order to configure <cite>HUGEPAGES</cite> in OpenShift, refer to this <a class="reference external" href="https://docs.openshift.com/container-platform/latest/scalability_and_performance/what-huge-pages-do-and-how-they-are-consumed-by-apps.html">steps</a>.</p>
-<p>For SR-IOV Network Operator configuration instructions, visit the Official <a class="reference external" href="https://docs.openshift.com/container-platform/latest/networking/hardware_networks/configuring-sriov-operator.html#configuring-sriov-operator">Website</a>.</p>
+<p>In order to configure <cite>HUGEPAGES</cite> in OpenShift, refer to this <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/scalability_and_performance/what-huge-pages-do-and-how-they-are-consumed">steps</a>.</p>
+<p>For SR-IOV Network Operator configuration instructions, visit the Official <a class="reference external" href="https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/networking_operators/sr-iov-operator#configuring-sriov-operator">Website</a>.</p>
 </section>
 </section>
 </section>
@@ -580,7 +607,7 @@ The <cite>pod.yaml</cite> configuration file for such a deployment:</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, NVIDIA.
-      <span class="lastupdated">Last updated on Jul 14, 2025.
+      <span class="lastupdated">Last updated on Aug 08, 2025.
       </span></p>
   </div>
 
