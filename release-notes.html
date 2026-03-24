@@ -27,7 +27,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Platform Support" href="platform-support.html" />
-    <link rel="prev" title="NVIDIA Network Operator v26.1.0-rc.1" href="index.html" />
+    <link rel="prev" title="NVIDIA Network Operator v26.1.0" href="index.html" />
  
 
 
@@ -73,6 +73,7 @@
 <li class="toctree-l1"><a class="reference internal" href="customizations/customization.html">Customization Options and CRDs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="life-cycle-management.html">Life Cycle Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced/advanced.html">Advanced Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting/troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licenses.html">Legal Notices and 3rd Party Licenses</a></li>
 </ul>
 
@@ -138,13 +139,16 @@
 <tbody>
 <tr class="row-even"><td><p>26.1.0</p></td>
 <td><div class="line-block">
+<div class="line">Added support for ConnectX-9 SuperNIC</div>
+<div class="line">- Added support for Spectrum-X Ethernet Networking Platform with Kubernetes [GA]</div>
+<div class="line">- Added support for Spectrum-X Single-plane and SW Multi-plane topologies in Spectrum-X Operator and NIC Configuration Operator</div>
+<div class="line">- Added Spectrum-X support for NVIDIA Kubernetes Launch Kit</div>
+<div class="line">- Added support for Azure AKS with Azure Linux</div>
 <div class="line">- Added support for Government-Ready, STIG/FIPS hardening security requirements, in OpenShift deployments for NVIDIA AI Enterprise customers</div>
+<div class="line">- Added support for Network Operator SOS report script, to collect system information for troubleshooting purposes</div>
 <div class="line">- Added support for NIC multiport firmware parameter (esw_multiport) using devlinkParams in SR-IOV Network Operator</div>
 <div class="line">- Added support for setting OVS bridges grouping configuration in SR-IOV Network Operator, grouping per NIC PFs to a single OVS bridge</div>
-<div class="line">- Added support for Network Operator SOS report script, to collect system information for troubleshooting purposes</div>
-<div class="line">- Added support for SW/HW multi-plane Spectrum-X topologies in Spectrum-X Operator and NIC Configuration Operator</div>
-<div class="line">- Added support for NicInterfaceNameTemplate allowing users to define custom naming schemes for network and RDMA interfaces on NIC devices in NIC Configuration Operator - Tech Preview</div>
-<div class="line">- Added support for ConnectX-9 SuperNIC</div>
+<div class="line">- [TECH PREVIEW] Added support for NicInterfaceNameTemplate allowing users to define custom naming schemes for network and RDMA interfaces on NIC devices in NIC Configuration Operator</div>
 </div>
 </td>
 </tr>
@@ -506,6 +510,8 @@ It is advised to keep deployCR=false in your helm values and create/update NicCl
 <tr class="row-even"><td><p>26.1.0</p></td>
 <td><div class="line-block">
 <div class="line">- There is a known limitation in OVS-CNI after applying SR-IOV Operator OVSNetwork and SriovNetworkNodePolicy with OVS bridge and switchdev mode configuration. The limitation is that after k8s node is rebooted, the VF representor that was attached to the OVS bridge will not be deleted. The workaround is to (manually/CD) delete all stale VF representors after the node is rebooted</div>
+<div class="line">- Multus CNI does not use a service account token after the Kubernetes API rotates it. The recommended workaround is to edit the Multus CNI DaemonSet manually to remove <code class="docutils literal notranslate"><span class="pre">--skip-config-watch</span></code> CLI argument.</div>
+<div class="line">- The DOCA driver container is validated with host kernel versions up to 6.8.0-100. Compatibility with newer kernel versions is not guaranteed and may require a newer DOCA driver container release</div>
 </div>
 </td>
 </tr>
@@ -629,7 +635,7 @@ This limitation applies to <strong>all</strong> versions of the NVIDIA Network O
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025-2026, NVIDIA.
-      <span class="lastupdated">Last updated on Feb 18, 2026.
+      <span class="lastupdated">Last updated on Mar 24, 2026.
       </span></p>
   </div>
 
