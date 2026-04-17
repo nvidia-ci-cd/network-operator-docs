@@ -62,6 +62,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#supported-nvidia-data-center-systems">Supported NVIDIA Data Center Systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supported-operating-systems-and-kubernetes-platforms">Supported Operating Systems and Kubernetes Platforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supported-container-runtimes">Supported Container Runtimes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nvidia-spectrum-x-ethernet-networking-platform">NVIDIA Spectrum-X Ethernet Networking Platform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supported-precompiled-container-images-for-doca-ofed-drivers">Supported Precompiled Container Images for DOCA-OFED Drivers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#supported-operating-systems">Supported Operating Systems</a></li>
@@ -129,15 +130,16 @@
 <li><p><a class="reference internal" href="#supported-nvidia-data-center-systems" id="id9">Supported NVIDIA Data Center Systems</a></p></li>
 <li><p><a class="reference internal" href="#supported-operating-systems-and-kubernetes-platforms" id="id10">Supported Operating Systems and Kubernetes Platforms</a></p></li>
 <li><p><a class="reference internal" href="#supported-container-runtimes" id="id11">Supported Container Runtimes</a></p></li>
-<li><p><a class="reference internal" href="#supported-precompiled-container-images-for-doca-ofed-drivers" id="id12">Supported Precompiled Container Images for DOCA-OFED Drivers</a></p>
+<li><p><a class="reference internal" href="#nvidia-spectrum-x-ethernet-networking-platform" id="id12">NVIDIA Spectrum-X Ethernet Networking Platform</a></p></li>
+<li><p><a class="reference internal" href="#supported-precompiled-container-images-for-doca-ofed-drivers" id="id13">Supported Precompiled Container Images for DOCA-OFED Drivers</a></p>
 <ul>
-<li><p><a class="reference internal" href="#overview" id="id13">Overview</a></p></li>
-<li><p><a class="reference internal" href="#supported-operating-systems" id="id14">Supported Operating Systems</a></p></li>
-<li><p><a class="reference internal" href="#limitations" id="id15">Limitations</a></p></li>
+<li><p><a class="reference internal" href="#overview" id="id14">Overview</a></p></li>
+<li><p><a class="reference internal" href="#supported-operating-systems" id="id15">Supported Operating Systems</a></p></li>
+<li><p><a class="reference internal" href="#limitations" id="id16">Limitations</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#network-operator-component-matrix" id="id16">Network Operator Component Matrix</a></p></li>
-<li><p><a class="reference internal" href="#additional-supported-tools-and-integrations" id="id17">Additional Supported Tools and Integrations</a></p></li>
+<li><p><a class="reference internal" href="#network-operator-component-matrix" id="id17">Network Operator Component Matrix</a></p></li>
+<li><p><a class="reference internal" href="#additional-supported-tools-and-integrations" id="id18">Additional Supported Tools and Integrations</a></p></li>
 </ul>
 </div>
 <section id="prerequisites">
@@ -309,7 +311,11 @@
 </section>
 <section id="supported-operating-systems-and-kubernetes-platforms">
 <h2>Supported Operating Systems and Kubernetes Platforms<a class="headerlink" href="#supported-operating-systems-and-kubernetes-platforms" title="Permalink to this headline"></a></h2>
-<p><strong>NVIDIA Network Operator</strong> has been validated on the following OS / platform combinations:</p>
+<p><strong>NVIDIA Network Operator</strong> has been validated on the following OS and platform combinations for Ethernet (RoCE) and InfiniBand (IB RDMA):</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Kubernetes support for the NVIDIA Spectrum-X Reference Architecture (RA) is limited to a subset of OS and platform combinations. For details, refer to the NVIDIA Spectrum-X RA documentation.</p>
+</div>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 14%" />
@@ -321,7 +327,7 @@
 <col style="width: 14%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Operating System</p></th>
+<tr class="row-odd"><th class="head"><p>Operating Systems</p></th>
 <th class="head"><p>Upstream Kubernetes</p></th>
 <th class="head"><p>Red Hat OpenShift</p></th>
 <th class="head"><p>Rancher RKE2</p></th>
@@ -438,6 +444,47 @@
 </tbody>
 </table>
 </section>
+<section id="nvidia-spectrum-x-ethernet-networking-platform">
+<h2>NVIDIA Spectrum-X Ethernet Networking Platform<a class="headerlink" href="#nvidia-spectrum-x-ethernet-networking-platform" title="Permalink to this headline"></a></h2>
+<p><strong>NVIDIA Network Operator</strong> has been validated with the following NVIDIA Spectrum-X Reference Architecture (RA) versions:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For details on supported topologies, NIC hardware, software components, and version-specific notes, refer to the NVIDIA Spectrum-X RA documentation.</p>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Spectrum-X RA Version</p></th>
+<th class="head"><p>Topologies and NIC Hardware</p></th>
+<th class="head"><p>Kubernetes Versions</p></th>
+<th class="head"><p>Operating Systems</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.1</p></td>
+<td><ul class="simple">
+<li><p>Single-Plane (ConnectX-7 or BlueField-3 SuperNIC)</p></li>
+<li><p>Dual- or Quad-plane (NVIDIA ConnectX-8 SuperNIC)</p></li>
+</ul>
+</td>
+<td><p>Upstream Kubernetes (1.31–1.35)</p></td>
+<td><ul class="simple">
+<li><p>Ubuntu 24.04 LTS</p></li>
+<li><p>Ubuntu 22.04 LTS</p></li>
+</ul>
+</td>
+<td><p>Small RA, Software Multi-Plane</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="supported-precompiled-container-images-for-doca-ofed-drivers">
 <h2>Supported Precompiled Container Images for DOCA-OFED Drivers<a class="headerlink" href="#supported-precompiled-container-images-for-doca-ofed-drivers" title="Permalink to this headline"></a></h2>
 <section id="overview">
@@ -499,7 +546,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>network-operator</p></td>
-<td><p>v26.4.0-beta.2</p></td>
+<td><p>v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -507,7 +554,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>network-operator-init-container</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -523,7 +570,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>k8s-rdma-shared-dev-plugin</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -531,7 +578,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>ib-kubernetes</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -539,7 +586,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>ipoib-cni</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -547,7 +594,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>nvidia-k8s-ipam</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -555,7 +602,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>nic-feature-discovery</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -571,7 +618,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>node-feature-discovery</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td><p>Optionally deployed. May already be present in the cluster with proper configuration.</p></td>
 </tr>
@@ -579,7 +626,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>sriov-network-operator</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -587,7 +634,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>sriov-network-operator-webhook</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -595,7 +642,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>sriov-network-operator-config-daemon</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -603,7 +650,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>sriov-network-device-plugin</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -611,7 +658,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>sriov-cni</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -619,7 +666,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>ib-sriov-cni</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -627,7 +674,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>plugins</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -635,7 +682,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>multus-cni</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -643,7 +690,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>rdma-cni</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>Yes</p></td>
 <td></td>
 </tr>
@@ -651,7 +698,7 @@
 <td><p>Community (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>ovs-cni-plugin</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>No</p></td>
 <td></td>
 </tr>
@@ -659,7 +706,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>nic-configuration-operator</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>No</p></td>
 <td></td>
 </tr>
@@ -667,7 +714,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>nic-configuration-operator-daemon</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>No</p></td>
 <td></td>
 </tr>
@@ -675,7 +722,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>maintenance-operator</p></td>
-<td><p>network-operator-v26.4.0-beta.2</p></td>
+<td><p>network-operator-v26.4.0-beta.3</p></td>
 <td><p>No</p></td>
 <td></td>
 </tr>
@@ -683,7 +730,7 @@
 <td><p>NVIDIA (OSS)</p></td>
 <td><p>nvcr.io/nvstaging/mellanox</p></td>
 <td><p>k8s-launch-kit</p></td>
-<td><p>v26.4.0-beta.2</p></td>
+<td><p>v26.4.0-beta.3</p></td>
 <td><p>No</p></td>
 <td></td>
 </tr>
@@ -717,7 +764,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025-2026, NVIDIA.
-      <span class="lastupdated">Last updated on Apr 07, 2026.
+      <span class="lastupdated">Last updated on Apr 17, 2026.
       </span></p>
   </div>
 
