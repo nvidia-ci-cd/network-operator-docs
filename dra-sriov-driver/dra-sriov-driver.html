@@ -26,7 +26,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="NVIDIA Kubernetes Launch Kit" href="../k8s-launch-kit.html" />
+    <link rel="next" title="NVIDIA Kubernetes Launch Kit" href="../k8s-launch-kit/k8s-launch-kit.html" />
     <link rel="prev" title="Network Operator API reference v1alpha1" href="../nic-conf-operator/crds.html" />
  
 
@@ -67,7 +67,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#extended-resource-allocation-by-dra">Extended Resource Allocation by DRA</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../k8s-launch-kit.html">Configuration Assistance with Kubernetes Launch Kit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../k8s-launch-kit/k8s-launch-kit.html">Configuration Assistance with Kubernetes Launch Kit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai-skills.html">AI Skills</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../customizations/customization.html">Customization Options and CRDs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../life-cycle-management.html">Life Cycle Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../kubevirt.html">KubeVirt SR-IOV Integration</a></li>
@@ -133,6 +134,10 @@ NVIDIA DRA Driver for SR-IOV with the NVIDIA Network Operator.</p>
 from supported NVIDIA network adapters using the native Kubernetes DRA framework.</p>
 <p>You can use the DRA Driver for SR-IOV with the SR-IOV Network Operator to deploy and manage your
 SR-IOV network resources.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This feature is supported only for Vanilla Kubernetes deployments with SR-IOV Network Operator.</p>
+</div>
 </section>
 <section id="deployment">
 <h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline"></a></h2>
@@ -162,17 +167,17 @@ existing <code class="docutils literal notranslate"><span class="pre">SriovNetwo
 <span class="w">  </span><span class="nt">nvIpam</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvidia-k8s-ipam</span><span class="w"></span>
 <span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v26.4.0-beta.6</span><span class="w"></span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v26.4.0-beta.7</span><span class="w"></span>
 <span class="w">    </span><span class="nt">enableWebhook</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
 <span class="w">  </span><span class="nt">secondaryNetwork</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">cniPlugins</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">plugins</span><span class="w"></span>
 <span class="w">      </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v26.4.0-beta.6</span><span class="w"></span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v26.4.0-beta.7</span><span class="w"></span>
 <span class="w">    </span><span class="nt">multus</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">multus-cni</span><span class="w"></span>
 <span class="w">      </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nvcr.io/nvstaging/mellanox</span><span class="w"></span>
-<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v26.4.0-beta.6</span><span class="w"></span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-operator-v26.4.0-beta.7</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl apply -f nicclusterpolicy.yaml
@@ -417,7 +422,15 @@ constrained to share the same PCIe root:</p>
 <span class="w">          </span><span class="nt">count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
 <span class="w">      </span><span class="nt">constraints</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">matchAttribute</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resource.kubernetes.io/pcieRoot&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="nt">requests</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">vf</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">gpu</span><span class="p p-Indicator">]</span><span class="w"></span>
 </pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>On GB300, Vera Rubin, and Fractal systems, the PCIe root used to match a NIC to a GPU is not
+the root of the NIC itself. Instead, it is the PCIe root of the NIC’s Data Direct sub-interface.
+This applies to ConnectX-8 and later adapters. The DRA SR-IOV driver does not currently support
+this topology.</p>
 </div>
 </section>
 <section id="extended-resource-allocation-by-dra">
@@ -471,7 +484,7 @@ number of devices of that class.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025-2026, NVIDIA.
-      <span class="lastupdated">Last updated on May 05, 2026.
+      <span class="lastupdated">Last updated on May 13, 2026.
       </span></p>
   </div>
 
