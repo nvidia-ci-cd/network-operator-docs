@@ -60,7 +60,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../getting-started-with-openshift.html">Getting Started with Red Hat OpenShift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install-network-operator-gov-ready.html">NVIDIA Network Operator Government Ready</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nic-conf-operator/nic-configuration-operator.html">NIC Configuration Operator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dra-sriov-driver/dra-sriov-driver.html">DRA SR-IOV Driver</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="k8s-launch-kit.html">Configuration Assistance with Kubernetes Launch Kit</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Installation</a><ul>
@@ -94,7 +93,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../ai-skills.html">AI Skills</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../customizations/customization.html">Customization Options and CRDs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../life-cycle-management.html">Life Cycle Management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../kubevirt.html">KubeVirt SR-IOV Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/advanced.html">Advanced Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../troubleshooting/troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../licenses.html">Legal Notices and 3rd Party Licenses</a></li>
@@ -194,14 +192,14 @@ brew install l8k
 <h3>Container<a class="headerlink" href="#container" title="Permalink to this headline"></a></h3>
 <p>Run <code class="docutils literal notranslate"><span class="pre">l8k</span></code> directly from the published container image without copying any binary or assets to the host filesystem. The image stays in the local Docker cache; everything else (kubeconfig, output directory) is mounted at runtime.</p>
 <p>Pull the image once:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull nvcr.io/nvstaging/mellanox/k8s-launch-kit:v26.4.0-beta.8
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull nvcr.io/nvstaging/mellanox/k8s-launch-kit:v26.4.0-beta.9
 </pre></div>
 </div>
 <p>Define a shell alias so <code class="docutils literal notranslate"><span class="pre">l8k</span></code> invokes the container with kubeconfig + working directory mounted:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">l8k</span><span class="o">=</span><span class="s1">&#39;docker run --rm --net=host \</span>
 <span class="s1">    -v ~/.kube:/kube:ro \</span>
 <span class="s1">    -v $(pwd):/work -w /work \</span>
-<span class="s1">    nvcr.io/nvstaging/mellanox/k8s-launch-kit:v26.4.0-beta.8&#39;</span>
+<span class="s1">    nvcr.io/nvstaging/mellanox/k8s-launch-kit:v26.4.0-beta.9&#39;</span>
 </pre></div>
 </div>
 <p>Add the line to your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> to make it persistent. With this alias in place, every <code class="docutils literal notranslate"><span class="pre">l8k</span> <span class="pre">&lt;subcommand&gt;</span> <span class="pre">...</span></code> invocation creates a fresh container, runs the command, and removes the container — nothing is written outside the current working directory.</p>
@@ -238,7 +236,7 @@ brew untap nvidia/l8k
 <h3>Container<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
 <p>Drop the alias and remove the cached image:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">unalias</span> l8k
-docker image rm nvcr.io/nvstaging/mellanox/k8s-launch-kit:v26.4.0-beta.8
+docker image rm nvcr.io/nvstaging/mellanox/k8s-launch-kit:v26.4.0-beta.9
 </pre></div>
 </div>
 <p>Also remove the alias line from your shell rc file if you added it.</p>
@@ -273,7 +271,7 @@ docker image rm nvcr.io/nvstaging/mellanox/k8s-launch-kit:v26.4.0-beta.8
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025-2026, NVIDIA.
-      <span class="lastupdated">Last updated on May 20, 2026.
+      <span class="lastupdated">Last updated on May 29, 2026.
       </span></p>
   </div>
 
